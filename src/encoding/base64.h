@@ -20,11 +20,8 @@ char *encode64(const char *str)
 
     for (i = 0; i < length; i++)
     {
-        if (isalpha(str[i]))
-            result[i] = str[i] - ALPHA_BEG;
-
-        else if (isdigit(str[i]))
-            result[i] = str[i] - NUM_BEG + BASE_NUM_BEG;
+        if ((str[i] >= ALPHA_BEG && str[i]) || (str[i] >= NUM_BEG && str[i] <= NUM_LIM))
+            result[i] = str[i] - NUM_BEG;
 
         else
             return NULL;
@@ -42,11 +39,8 @@ char *decode64(const char *str)
 
     for (i = 0; i < length; i++)
     {
-        if (str[i] < BASE_NUM_BEG)
-            result[i] = str[i] + ALPHA_BEG;
-
-        else if (str[i] >= BASE_NUM_BEG && str[i] <= 61)
-            result[i] = str[i] - BASE_NUM_BEG + NUM_BEG;
+        if (str[i] >= 0 && str[i] <= ALPHA_LIM - NUM_BEG)
+            result[i] = str[i] + NUM_BEG;
 
         else
             return NULL;
