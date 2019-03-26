@@ -1,4 +1,5 @@
 #include <assert.h>
+#include <stdio.h>
 #include "encoding/base64.h"
 #include "viProc.h"
 #include "auProc.h"
@@ -12,6 +13,10 @@ char *tochararray(const int *arr, size_t length);
 // Main test function.
 void main()
 {
+    int arr[3] = {1, 2, 4};
+    int *a = arr;
+    a++;
+    
     // List of tests.
     test_base64_encoding();
     test_base64_decoding();
@@ -21,7 +26,7 @@ void main()
 void test_base64_encoding()
 {
     const char *str = "Hello1234";
-    const int encoded_test[] = {7, 30, 37, 37, 40, 53, 54, 55, 56};
+    const int encoded_test[] = {24, 53, 60, 60, 63, 1, 2, 3, 4};
     const char *encoded = encode64(str);
     unsigned i;
 
@@ -34,7 +39,7 @@ void test_base64_encoding()
 // Tests base64 decoding.
 void test_base64_decoding()
 {
-    const int arr[] = {7, 30, 37, 37, 40, 53, 54, 55, 56};
+    const int arr[] = {24, 53, 60, 60, 63, 1, 2, 3, 4};
     const char *encoded = tochararray(arr, 9);
     const char *decoded = decode64(encoded);
     const char *decoded_test = "Hello1234";
