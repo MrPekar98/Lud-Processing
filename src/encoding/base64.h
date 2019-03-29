@@ -9,10 +9,10 @@
 #define BASE_ALPHA_BEG 0
 
 // Prototypes
-char *decode64(const char *str);
+static inline char *decode64(const char *str);
 
 // Encodes string into base64.
-char *encode64(const char *str)
+static inline char *encode64(const char *str)
 {
     size_t length = strlen(str);
     unsigned i;
@@ -31,7 +31,7 @@ char *encode64(const char *str)
 }
 
 // Decodes base64 string into base 256.
-char *decode64(const char *str)
+static inline char *decode64(const char *str)
 {
     size_t length = strlen(str);
     char *result = (char *) malloc(sizeof(char) * length);
