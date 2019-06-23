@@ -1,8 +1,9 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <conio.h>
 #include <time.h>
-#include "viProc.h"
-#include "auProc.h"
+#include "imProc.h"
+#include "encoding/base64.h"
 #define STRLENGTH 50
 
 // Prototypes
@@ -12,15 +13,38 @@ void imagemenu();
 void videomenu();
 void audiomenu();
 
+// External prototypes.
+extern image_t load_bmp(FILE *image);
+extern void free_bmp(image_t *image);
+
 // Main function
 void main()
 {
     unsigned int choice;
 
     system("cls");
-    printwelcome();
+    //printwelcome();
     printf("\n1) - Image processing\n2) - Video processing\n3) - Audio processing\n\n: ");
     scanf("%d", &choice);
+
+    switch (choice)
+    {
+        case 1:
+            imagemenu();
+            break;
+
+        case 2:
+            videomenu();
+            break;
+
+        case 3:
+            audiomenu();
+            break;
+
+        default:
+            printf("Invalid input\n");
+            getchar();
+    }
 }
 
 // Prints welcome message.
@@ -51,17 +75,17 @@ void wait(unsigned seconds)
 // Image processing menu.
 void imagemenu()
 {
-
+    
 }
 
 // Video processing menu.
 void videomenu()
 {
-
+    
 }
 
 // Audio processing menu.
 void audiomenu()
 {
-
+    
 }
