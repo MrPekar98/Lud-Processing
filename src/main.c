@@ -16,6 +16,8 @@ void audiomenu();
 // External prototypes.
 extern image_t load_bmp(FILE *image);
 extern void free_bmp(image_t *image);
+extern void print_matrix(image_t image);
+extern void write_bmp(FILE *file, image_t image);
 
 // Main function
 void main()
@@ -75,7 +77,17 @@ void wait(unsigned seconds)
 // Image processing menu.
 void imagemenu()
 {
-    
+    char path[STRLENGTH];
+    printf("Path: ");
+    scanf(" %s", path);
+
+    FILE *f = fopen(path, "r");
+    image_t image = load_bmp(f);
+
+    fclose(f);
+    f = fopen("new_image.bmp", "w");
+    write_bmp(f, image);
+    fclose(f);
 }
 
 // Video processing menu.
