@@ -2,13 +2,6 @@
 
 typedef struct __video_t
 {
-    unsigned long length;
+    unsigned long duration;
     image_t *frames;
 } video_t;
-
-// Prototypes
-
-video_t default_video(unsigned width, unsigned height)
-{
-    
-}
