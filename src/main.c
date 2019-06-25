@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <conio.h>
 #include <time.h>
-#include "imProc.h"
+#include "viProc.h"
 #include "encoding/base64.h"
 #define STRLENGTH 50
 
@@ -18,6 +18,7 @@ extern image_t load_bmp(FILE *image);
 extern void free_bmp(image_t *image);
 extern void print_matrix(image_t image);
 extern void write_bmp(FILE *file, image_t image);
+extern video_t init_video(unsigned height, unsigned width, unsigned long frames, char *filename);
 
 // Main function
 void main()
@@ -93,7 +94,19 @@ void imagemenu()
 // Video processing menu.
 void videomenu()
 {
-    
+    char filename[100];
+    unsigned height, width;
+    unsigned long frames;
+
+    printf("File name: ");
+    scanf("%s", filename);
+    printf("Resultution (height width): ");
+    scanf("%u %u", &height, &width);
+    printf("Frames: ");
+    scanf("%lu", &frames);
+
+    video_t video = init_video(height, width, frames, filename);
+    //print_matrix(video.frames[0]);
 }
 
 // Audio processing menu.
