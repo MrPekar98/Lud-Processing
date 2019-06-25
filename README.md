@@ -1,2 +1,2 @@
 # Lud-Processing
-Library for processing of images, videos and audio. A program is included.
+Program for processing of images, videos and audio. A compiled program is included.
