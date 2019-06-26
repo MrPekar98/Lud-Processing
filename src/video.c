@@ -53,14 +53,16 @@ static void load_video(video_t *vid, char *filename, unsigned long frames)
 static void read_video_data(FILE *f, image_t *frame, unsigned height, unsigned width)
 {
     unsigned i, j;
+    int first = fgetc(f);
 
     for (i = 0; i < height; i++)
     {
-        for (j = 0; j < width; j++)
+        for (j = 0; j < width && first >= 0; j++)
         {
-            frame->matrix[i][j].red = fgetc(f);
+            frame->matrix[i][j].red = first;
             frame->matrix[i][j].green = fgetc(f);
             frame->matrix[i][j].blue = fgetc(f);
+            first = fgetc(f);
         }
     }
 }
