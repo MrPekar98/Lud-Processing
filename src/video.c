@@ -15,7 +15,7 @@ void free_video(video_t *video);
 // Initialises video frames.
 video_t init_video(unsigned long frames, char *filename)
 {
-    video_t vid = {.frames = (image_t *) malloc(sizeof(image_t) * frames)};
+    video_t vid = {.frames = (image_t *) malloc(sizeof(image_t) * frames), .duration = frames};
     unsigned i, j, height = video_height(filename), width = video_width(filename);
 
     for (i = 0; i < frames; i++)
@@ -87,26 +87,20 @@ static unsigned video_height(char *filename)
     return atoi(result);
 }
 
+// TODO: Read each image.
 // Loads video into array.
 static void load_video(video_t *vid, char *filename, unsigned long frames)
 {
-    char file_in[100];
-    sprintf(file_in, "ffmpeg -i %s -r 1 -f image2 %2d.png", filename);
-    FILE *fin = popen(file_in, "r");
-    //video_output = popen("ffmpeg -y -f rawvideo -vcodec rawvideo -pix_fmt rgb24 -s 352x640 -r 25 -i - -f mp4 -q:v 5 -an -vcodec mpeg4 Test/output.mp4", "w");
-    //video_output = popen("ffmpeg -y -f rawvideo -pixel_format gbrp -video_size 1024x768 -i - -c:v h264 -pix_fmt yuv420p video.mov", "w");
+    char image_com[100], file_in[100];
+    system("mkdir Data");
+    sprintf(image_com, "ffmpeg -i %s Data/in%d.png", filename);
+    system(image_com);
+
     unsigned i, j, k, height = vid->frames[0].height, width = vid->frames[0].width;
     const size_t frame_size = height * width * 3;
-    
-    for (i = 0; i < frames; i++)
-    {
-        read_video_data(fin, &vid->frames[i], height, width);
-    }
-
-    fflush(fin);
-    fclose(fin);
 }
 
+// TODO: Read each image as frame in folder Data.
 // Reads video file into buffer.
 static void read_video_data(FILE *f, image_t *frame, unsigned height, unsigned width)
 {
@@ -128,5 +122,17 @@ static void read_video_data(FILE *f, image_t *frame, unsigned height, unsigned w
 // De-allocates video from memory.
 void free_video(video_t *video)
 {
+    unsigned i, j;
+
+    for (i = 0; i < video->duration; i++)
+    {
+        for (j = 0; j < video->frames[i].height; j++)
+        {
+            free(video->frames[i].matrix[j]);
+        }
+
+        free(video->frames[i].matrix);
+    }
+
     free(video->frames);
 }
