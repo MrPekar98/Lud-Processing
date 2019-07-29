@@ -1,8 +1,5 @@
 #include "viProc.h"
 
-// Global file for output video.
-FILE *video_output;
-
 // Prototypes
 static char *video_resolution(char *filename);
 static unsigned video_width(char *filename);
