@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <conio.h>
 #include <time.h>
 #include "viProc.h"
 #include "encoding/base64.h"
@@ -11,6 +10,7 @@ void printwelcome();
 void wait(unsigned seconds);
 void imagemenu();
 void videomenu();
+int file_exists(const char *file);
 void audiomenu();
 
 // External prototypes.
@@ -18,7 +18,7 @@ extern image_t load_bmp(FILE *image);
 extern void free_bmp(image_t *image);
 extern void print_matrix(image_t image);
 extern void write_bmp(FILE *file, image_t image);
-extern video_t init_video(unsigned height, unsigned width, unsigned long frames, char *filename);
+extern video_t init_video(unsigned long frames, char *filename);
 
 // Main function
 void main()
@@ -95,18 +95,34 @@ void imagemenu()
 void videomenu()
 {
     char filename[100];
-    unsigned height, width;
     unsigned long frames;
 
     printf("File name: ");
     scanf("%s", filename);
-    printf("Resultution (height width): ");
-    scanf("%u %u", &height, &width);
+
+    if (!file_exists(filename))
+    {
+        printf("File does not exist.\n");
+        exit(1);
+    }
+
     printf("Frames: ");
     scanf("%lu", &frames);
 
-    video_t video = init_video(height, width, frames, filename);
+    video_t video = init_video(frames, filename);
     //print_matrix(video.frames[0]);
+}
+
+// Checks whether file exists.
+int file_exists(const char *file)
+{
+    FILE *f = fopen(file, "r");
+
+    if (f == NULL)
+        return 0;
+
+    fclose(f);
+    return 1;
 }
 
 // Audio processing menu.
