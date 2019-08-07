@@ -8,6 +8,7 @@ static void load_video(video_t *vid, char *filename, unsigned long frames);
 static void alloc_buffer(int *** buffer, unsigned height, unsigned width);
 static void read_video_data(FILE *f, image_t *frame, unsigned height, unsigned width);
 void free_video(video_t *video);
+static double *frame_differences(video_t video);
 
 // Initialises video frames.
 video_t init_video(unsigned long frames, char *filename)
@@ -84,15 +85,15 @@ static unsigned video_height(char *filename)
     return atoi(result);
 }
 
-// TODO: Read each image.
+// TODO: Read each image, not just a few of them. Also, an error happens here, but now when executing command explicitly in cmd.
 // Loads video into array.
 static void load_video(video_t *vid, char *filename, unsigned long frames)
 {
     char image_com[100], file_in[100];
     system("mkdir Data");
-    sprintf(image_com, "ffmpeg -i %s Data/in%d.png", filename);
+    sprintf(image_com, "ffmpeg -i %s -qscale:v 1 Data/im_%05d.png", filename);
     system(image_com);
-
+    
     unsigned i, j, k, height = vid->frames[0].height, width = vid->frames[0].width;
     const size_t frame_size = height * width * 3;
 }
@@ -132,4 +133,13 @@ void free_video(video_t *video)
     }
 
     free(video->frames);
+}
+
+// Returns array of frame differences.
+// TODO: Finish this!
+static double *frame_differences(video_t video)
+{
+    double *diffs = (double *) malloc(sizeof(double) * video.duration);
+
+    return diffs;
 }
