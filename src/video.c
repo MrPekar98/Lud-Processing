@@ -91,7 +91,7 @@ static void load_video(video_t *vid, char *filename, unsigned long frames)
 {
     char image_com[100], file_in[100];
     system("mkdir Data");
-    sprintf(image_com, "ffmpeg -i %s -qscale:v 1 Data/im_%05d.png", filename);
+    sprintf(image_com, "ffmpeg -i %s -qscale:v 1 Data/im_%s.png", filename, "%05d");
     system(image_com);
     
     unsigned i, j, k, height = vid->frames[0].height, width = vid->frames[0].width;
